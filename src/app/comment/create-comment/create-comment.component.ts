@@ -71,7 +71,7 @@ export class CreateCommentComponent implements OnInit, AfterViewInit, OnDestroy 
     // Read the product Id from the route parameter
     this.sub = this.route.params.subscribe(
       params => {
-        let id = +params['id'];
+        let id = params['id'];
         this.getComment(id);
       }
     );
@@ -96,7 +96,7 @@ export class CreateCommentComponent implements OnInit, AfterViewInit, OnDestroy 
     this.tags.push(new FormControl());
   }
 */
-  getComment(id: number): void {
+  getComment(id: string): void {
     this.commentService.getComment(id)
       .subscribe(
         (comment: Comment) => this.onCommentRetrieved(comment),
@@ -104,7 +104,7 @@ export class CreateCommentComponent implements OnInit, AfterViewInit, OnDestroy 
       );
   }
 
-  onCategoryRetrieved(comment: Comment): void {
+  onCommentRetrieved(comment: Comment): void {
     if (this.commentForm) {
       this.commentForm.reset();
     }
@@ -129,13 +129,13 @@ export class CreateCommentComponent implements OnInit, AfterViewInit, OnDestroy 
     //this.categoryForm.setControl('tags', this.fb.array(this.category.tags || []));
   }
 
-  deleteProduct(): void {
-    if (!this.category.id) {
+  deleteComment(): void {
+    if (!this.comment.id) {
       // Don't delete, it was never saved.
       this.onSaveComplete();
     } else {
-      if (confirm(`Really delete the product: ${this.category.name}?`)) {
-        this.categoryService.deleteCategory(this.category.id)
+      if (confirm(`Really delete the Comment: ${this.comment.comment}?`)) {
+        this.commentService.deleteComment(this.comment.id)
           .subscribe(
             () => this.onSaveComplete(),
             (error: any) => this.errorMessage = <any>error
@@ -144,25 +144,25 @@ export class CreateCommentComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  saveCategory(): void {
-    if (this.categoryForm.dirty && this.categoryForm.valid) {
+  saveComment(): void {
+    if (this.commentForm.dirty && this.commentForm.valid) {
       // Copy the form values over the product object values
-      let p = Object.assign({}, this.category, this.categoryForm.value);
+      let c = Object.assign({}, this.comment, this.commentForm.value);
 
-      this.categoryService.saveCategory(p)
+      this.commentService.saveComment(c)
         .subscribe(
           () => this.onSaveComplete(),
           (error: any) => this.errorMessage = <any>error
         );
-    } else if (!this.categoryForm.dirty) {
+    } else if (!this.commentForm.dirty) {
       this.onSaveComplete();
     }
   }
 
   onSaveComplete(): void {
     // Reset the form to clear the flags
-    this.categoryForm.reset();
-    this.router.navigate(['/categories']);
+    this.commentForm.reset();
+    this.router.navigate(['/post']);
   }
 
 }

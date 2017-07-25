@@ -23,7 +23,7 @@ export class CategoryService{
       .catch(this.handleError);
   }
 
-  getCategory(id: number): Observable<Category> {
+  getCategory(id: string): Observable<Category> {
     if (!id) {
       return Observable.of(this.initializeCategory());
       // return Observable.create((observer: any) => {
