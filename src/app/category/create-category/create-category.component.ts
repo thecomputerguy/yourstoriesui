@@ -75,7 +75,7 @@ export class CreateCategoryComponent implements OnInit, AfterViewInit, OnDestroy
     // Read the product Id from the route parameter
     this.sub = this.route.params.subscribe(
       params => {
-        let id = +params['id'];
+        let id = params['id'];
         this.getCategory(id);
       }
     );
@@ -100,7 +100,7 @@ export class CreateCategoryComponent implements OnInit, AfterViewInit, OnDestroy
     this.tags.push(new FormControl());
   }
 
-  getCategory(id: number): void {
+  getCategory(id: string): void {
     this.categoryService.getCategory(id)
       .subscribe(
         (category: Category) => this.onCategoryRetrieved(category),
