@@ -4,7 +4,7 @@ import {Post} from "../model/Post";
 import {Subscription, Observable} from "rxjs";
 import {GenericValidator} from "../../shared/generic-validator";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CommentService} from "../../comment/services/CommentService";
+import {PostService} from "../services/PostService";
 
 @Component({
   selector: 'app-create-post',
@@ -34,7 +34,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit, OnDestroy{
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private postService: CommentService) {
+              private postService: PostService) {
 
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -137,7 +137,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit, OnDestroy{
       commentsEnabled: this.post.commentsEnabled,
       views: this.post.views,
       categories: this.post.categories,
-      relatedPosts: this.post.relatedPosts,
+      relatedPosts: this.post.relatedPosts
 
     });
     this.postForm.setControl('tags', this.fb.array(this.post.tags || []));
